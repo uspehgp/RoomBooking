@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Room} from '../../model/room';
 import {DataService} from '../../data.service';
 
@@ -10,11 +10,16 @@ import {DataService} from '../../data.service';
 export class RoomsComponent implements OnInit {
 
   rooms: Array<Room>;
+  selectedRoom: Room;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService) {
+  }
 
   ngOnInit() {
     this.rooms = this.dataService.rooms;
   }
 
+  setRoom(id: number) {
+    this.selectedRoom = this.rooms.find((room) => room.id === id);
+  }
 }

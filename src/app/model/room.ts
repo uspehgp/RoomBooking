@@ -8,7 +8,7 @@ export class Room {
 
 export class LayoutCapacity {
   layout: Layout;
-  capacities: number;
+  capacity: number;
 }
 
 export enum Layout {

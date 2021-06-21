@@ -17,11 +17,11 @@ export class DataService {
 
     const capacity1 = new LayoutCapacity();
     capacity1.layout = Layout.THEATER;
-    capacity1.capacities = 50;
+    capacity1.capacity = 50;
 
     const capacity2 = new LayoutCapacity();
     capacity2.layout = Layout.USHAPE;
-    capacity2.capacities = 20;
+    capacity2.capacity = 20;
 
     room1.capacities.push(capacity1);
     room1.capacities.push(capacity2);
@@ -33,7 +33,7 @@ export class DataService {
 
     const capacity3 = new LayoutCapacity();
     capacity3.layout = Layout.THEATER;
-    capacity3.capacities = 60;
+    capacity3.capacity = 60;
 
     room2.capacities.push(capacity3);
 
