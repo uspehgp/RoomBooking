@@ -2,7 +2,7 @@ export class Room {
   id: number;
   name: string;
   location: string;
-  capacities: Array<LayoutCapacity>;
+  capacities = new Array<LayoutCapacity>();
 
 }
 
@@ -13,7 +13,7 @@ export class LayoutCapacity {
 
 export enum Layout {
   THEATER = 'Theater',
-  SHAPE = 'U-shape',
+  USHAPE = 'U-shape',
   BOARD = 'Board Meeting'
 
 }
