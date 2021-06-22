@@ -12,7 +12,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let room of rooms"> <!-- repeat the tr for each room -->
+      <tr *ngFor="let room of rooms">
         <td>{{room.id}}</td>
         <td>{{room.name}}</td>
         <td>
@@ -23,7 +23,7 @@
     </table>
   </div>
   <div class="col-6">
-    <app-room-detail
+    <app-room-detail *ngIf="selectedRoom"
     [room]="selectedRoom"></app-room-detail>
   </div>
 </div>
