@@ -19,7 +19,9 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.users = this.dataService.users;
+    this.dataService.getUsers().subscribe(next => {
+      this.users = next;
+    });
     this.route.queryParams.subscribe(
       (params) => {
         const id = params['id'];
@@ -31,7 +33,7 @@ export class UsersComponent implements OnInit {
   }
 
   setUser(id: number) {
-    this.router.navigate(['admin', 'users'], {queryParams: {id: id}});
+    this.router.navigate(['admin', 'users'], {queryParams: {id}});
   }
 
 }
