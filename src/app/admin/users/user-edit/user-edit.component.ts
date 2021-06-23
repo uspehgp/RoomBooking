@@ -10,6 +10,7 @@ export class UserEditComponent implements OnInit {
 
   @Input()
   user: User;
+  message: string;
 
   constructor() {
   }
