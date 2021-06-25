@@ -7,8 +7,9 @@
   <div class="form-group">
     <label for="name">Name</label>
     <input type="text" class="form-control" id="name" placeholder="user name" [(ngModel)]="formUser.name" name="name"
-           required #nameField="ngModel">
+           (change)="checkNameIsValid()" required #nameField="ngModel">
     <div class="alert alert-danger" *ngIf="nameField.invalid && nameField.touched">Name is required</div>
+    <div class="alert alert-danger" *ngIf="!nameIsValid">Name cannot be blank</div>
 
   </div>
 
@@ -26,7 +27,7 @@
 
   </div>
 
-  <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="userForm.invalid">Save</button>
+  <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="userForm.invalid || !nameIsValid">Save</button>
 </form>
 
 
