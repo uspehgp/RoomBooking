@@ -9,7 +9,7 @@ import {Observable, of} from 'rxjs';
 export class DataService {
 
   private rooms: Array<Room>;
-  private users: Array<User>
+  private users: Array<User>;
 
   getRooms(): Observable<Array<Room>> {
     return of(this.rooms);
@@ -17,6 +17,12 @@ export class DataService {
 
   getUsers(): Observable<Array<User>> {
     return of(this.users);
+  }
+
+  updateUser(user: User): Observable<User> {
+    const originalUser = this.users.find(u => u.id === user.id);
+    originalUser.name = user.name;
+    return of(originalUser);
   }
 
   constructor() {
