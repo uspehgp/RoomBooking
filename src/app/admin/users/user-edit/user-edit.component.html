@@ -2,12 +2,13 @@
 
 <div class="bg-warning p-5" *ngIf="message">{{message}}</div>
 
-<form>
+<form #userForm="ngForm">
 
   <div class="form-group">
     <label for="name">Name</label>
-    <input type="text" class="form-control" id="name" placeholder="user name" [(ngModel)]="formUser.name" name="name" required>
-    <div class="alert alert-danger">error message placeholder</div>
+    <input type="text" class="form-control" id="name" placeholder="user name" [(ngModel)]="formUser.name" name="name"
+           required #nameField="ngModel">
+    <div class="alert alert-danger" *ngIf="nameField.invalid && nameField.touched">Name is required</div>
 
   </div>
 
@@ -25,7 +26,7 @@
 
   </div>
 
-  <button type="button" class="btn btn-primary" (click)="onSubmit()">Save</button>
+  <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="userForm.invalid">Save</button>
 </form>
 
 
