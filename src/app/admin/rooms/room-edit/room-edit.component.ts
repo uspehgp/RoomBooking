@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Room} from '../../../model/room';
+import {Layout, LayoutCapacity, Room} from '../../../model/room';
 import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
@@ -12,6 +12,9 @@ export class RoomEditComponent implements OnInit {
   @Input()
   room: Room;
 
+  layouts = Object.keys(Layout);
+  layoutEnum = Layout;
+
   roomForm = new FormGroup({
     roomName: new FormControl('roomName'),
     location: new FormControl('location')
@@ -21,9 +24,27 @@ export class RoomEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.roomForm.patchValue({
+        roomName: this.room.name,
+        location: this.room.location
+      }
+    );
+
+    for (const layout of this.layouts) {
+      this.roomForm.addControl(`layout${layout}`, new FormControl('layout${layout}'));
+    }
   }
 
   onSubmit() {
-    console.log(this.roomForm);
+    this.room.name = this.roomForm.controls['roomName'].value;
+    this.room.location = this.roomForm.value['location'];
+    this.room.capacities = new Array<LayoutCapacity>();
+    for (const layout of this.layouts) {
+      const layoutCapacity = new LayoutCapacity();
+      layoutCapacity.layout = Layout[layout];
+      layoutCapacity.capacity = this.roomForm.controls[`layout${layout}`].value;
+      this.room.capacities.push(layoutCapacity);
+    }
+    console.log(this.room);
   }
 }
