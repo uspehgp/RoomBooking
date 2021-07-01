@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Layout, LayoutCapacity, Room} from '../../../model/room';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {DataService} from '../../../data.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-room-edit',
@@ -17,14 +19,18 @@ export class RoomEditComponent implements OnInit {
 
   roomForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,
+              private dataService: DataService,
+              private router: Router) {
   }
 
   ngOnInit() {
 
     this.roomForm = this.formBuilder.group(
-      {roomName: [this.room.name, Validators.required],
-        location: [this.room.location, [Validators.required, Validators.minLength(2)]]}
+      {
+        roomName: [this.room.name, Validators.required],
+        location: [this.room.location, [Validators.required, Validators.minLength(2)]]
+      }
     );
 
     for (const layout of this.layouts) {
@@ -44,7 +50,19 @@ export class RoomEditComponent implements OnInit {
       layoutCapacity.capacity = this.roomForm.controls[`layout${layout}`].value;
       this.room.capacities.push(layoutCapacity);
     }
-    console.log(this.room);
-    console.log(this.roomForm);
+
+    if (this.room.id == null) {
+      this.dataService.addRoom(this.room).subscribe(
+        next => {
+          this.router.navigate(['admin', 'rooms'], {queryParams: {action: 'view', id: next.id}});
+        }
+      );
+    } else {
+      this.dataService.updateRoom(this.room).subscribe(
+        next => {
+          this.router.navigate(['admin', 'rooms'], {queryParams: {action: 'view', id: next.id}}
+          );
+        });
+    }
   }
 }
