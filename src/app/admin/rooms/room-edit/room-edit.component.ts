@@ -1,15 +1,17 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Layout, LayoutCapacity, Room} from '../../../model/room';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DataService} from '../../../data.service';
 import {Router} from '@angular/router';
+import {FormResetService} from '../../../form-reset.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-room-edit',
   templateUrl: './room-edit.component.html',
   styleUrls: ['./room-edit.component.css']
 })
-export class RoomEditComponent implements OnInit {
+export class RoomEditComponent implements OnInit, OnDestroy {
 
   @Input()
   room: Room;
@@ -18,14 +20,30 @@ export class RoomEditComponent implements OnInit {
   layoutEnum = Layout;
 
   roomForm: FormGroup;
+  resetEventSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private dataService: DataService,
-              private router: Router) {
+              private router: Router,
+              private formResetService: FormResetService) {
   }
 
   ngOnInit() {
 
+    this.initialiseForm();
+    this.resetEventSubscription = this.formResetService.resetRoomFormEvent.subscribe(
+      room => {
+        this.room = room;
+        this.initialiseForm();
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.resetEventSubscription.unsubscribe();
+  }
+
+  initialiseForm() {
     this.roomForm = this.formBuilder.group(
       {
         roomName: [this.room.name, Validators.required],
@@ -39,6 +57,7 @@ export class RoomEditComponent implements OnInit {
       this.roomForm.addControl(`layout${layout}`, this.formBuilder.control(initialCapacity));
     }
   }
+
 
   onSubmit() {
     this.room.name = this.roomForm.controls['roomName'].value;
@@ -65,4 +84,5 @@ export class RoomEditComponent implements OnInit {
         });
     }
   }
+
 }
