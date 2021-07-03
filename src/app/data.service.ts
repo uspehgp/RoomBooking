@@ -37,6 +37,17 @@ export class DataService {
     return of(newUser);
   }
 
+  deleteUser(id: number): Observable<any> {
+    const selectedUser = this.users.find(u => u.id === id);
+    // console.log(selectedUser.id);
+    this.users.splice(this.users.indexOf(selectedUser), 1);
+    return of(null);
+  }
+
+  resetPassword(id: number): Observable<any> {
+    return of(null);
+  }
+
   updateRoom(room: Room): Observable<Room> {
     const originalRoom = this.rooms.find(r => r.id === room.id);
     originalRoom.name = room.name;
@@ -55,6 +66,12 @@ export class DataService {
     newRoom.id = id + 1;
     this.rooms.push(newRoom);
     return of(newRoom);
+  }
+
+  deleteRoom(id: number): Observable<any> {
+    const room = this.rooms.find(r => r.id === id);
+    this.rooms.splice(this.rooms.indexOf(room), 1);
+    return of(null);
   }
 
   constructor() {
