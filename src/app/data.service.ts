@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {Layout, LayoutCapacity, Room} from './model/room';
 import {User} from './model/user';
 import {Observable, of} from 'rxjs';
+import {Booking} from './model/booking';
+import {formatDate} from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +12,7 @@ export class DataService {
 
   private rooms: Array<Room>;
   private users: Array<User>;
+  private bookings: Array<Booking>;
 
   getRooms(): Observable<Array<Room>> {
     return of(this.rooms);
@@ -74,6 +77,10 @@ export class DataService {
     return of(null);
   }
 
+  getBookings(): Observable<Array<Booking>> {
+    return of (this.bookings);
+  }
+
   constructor() {
 
     this.users = new Array<User>();
@@ -121,5 +128,31 @@ export class DataService {
 
     this.rooms.push(room1);
     this.rooms.push(room2);
+
+    this.bookings = new Array<Booking>();
+    const booking1 = new Booking();
+    booking1.id = 1;
+    booking1.room = room1;
+    booking1.user = user1;
+    booking1.layout = Layout.THEATER;
+    booking1.title = 'Example meeting';
+    booking1.date = formatDate(new Date(), 'yyyy-MM-dd', 'en-EN');
+    booking1.startTime = '11:30';
+    booking1.endTime = '12:30';
+    booking1.participants = 12;
+
+    const booking2 = new Booking();
+    booking2.id = 2;
+    booking2.room = room2;
+    booking2.user = user2;
+    booking2.layout = Layout.USHAPE;
+    booking2.title = 'Another meeting';
+    booking2.date = formatDate(new Date(), 'yyyy-MM-dd', 'en-EN');
+    booking2.startTime = '14:00';
+    booking2.endTime = '15:00';
+    booking2.participants = 5;
+
+    this.bookings.push(booking1);
+    this.bookings.push(booking2);
   }
 }
