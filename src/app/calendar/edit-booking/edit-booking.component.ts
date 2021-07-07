@@ -31,14 +31,24 @@ export class EditBookingComponent implements OnInit {
       next => this.users = next
     );
     const id = this.route.snapshot.queryParams['id'];
-    this.dataService.getBooking(+id).subscribe(
-      next => this.booking = next
-    );
+    if (id) {
+      this.dataService.getBooking(+id).subscribe(
+        next => this.booking = next
+      );
+    } else {
+      this.booking = new Booking();
+    }
   }
 
   onSubmit() {
-    this.dataService.saveBooking(this.booking).subscribe(
-      () => this.router.navigate([''])
-    );
+    if (this.booking.id != null) {
+      this.dataService.saveBooking(this.booking).subscribe(
+        () => this.router.navigate([''])
+      );
+    } else {
+      this.dataService.addBooking(this.booking).subscribe(
+        () => this.router.navigate([''])
+      );
+    }
   }
 }
