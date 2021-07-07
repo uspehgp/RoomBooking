@@ -108,6 +108,12 @@ export class DataService {
     return of(newBooking);
   }
 
+  deleteBooking(id: number): Observable<any> {
+    const booking = this.bookings.find(b => b.id === id);
+    this.bookings.splice(this.bookings.indexOf(booking), 1);
+    return of(null);
+  }
+
   constructor() {
 
     this.users = new Array<User>();
