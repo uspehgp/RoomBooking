@@ -33,6 +33,8 @@ export class CalendarComponent implements OnInit {
       console.log(user2);
       console.log(typeof user2);
 
+      console.log(next.getRole());
+
     });
 
     this.route.queryParams.subscribe(
