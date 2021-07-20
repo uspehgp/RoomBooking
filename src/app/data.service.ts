@@ -6,6 +6,7 @@ import {Booking} from './model/booking';
 import {formatDate} from '@angular/common';
 import {environment} from '../environments/environment';
 import {HttpClient} from '@angular/common/http';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +74,9 @@ export class DataService {
   }
 
   getUser(id: number): Observable<User> {
-    return this.http.get<User>(environment.restUrl + '/api/users/' + id);
+    return this.http.get<User>(environment.restUrl + '/api/users/' + id)
+      .pipe(map(data => {
+        return User.fromHttp(data);
+      }));
   }
 }
