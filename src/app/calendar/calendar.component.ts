@@ -26,14 +26,16 @@ export class CalendarComponent implements OnInit {
     this.dataService.getUser(13).subscribe((next: User) => {
       console.log(next);
       console.log(typeof next);
-      let user: User = next;
+      const user: User = next;
       console.log(user.name);
       console.log(typeof user);
-      let user2 = next as User;
+      const user2 = next as User;
       console.log(user2);
       console.log(typeof user2);
-
-      console.log(next.getRole());
+      const user3 = User.fromHttp(next);
+      console.log(user3);
+      console.log(typeof user3);
+      console.log(user3.getRole());
 
     });
 
