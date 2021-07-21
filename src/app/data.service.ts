@@ -13,12 +13,37 @@ import {map} from 'rxjs/operators';
 })
 export class DataService {
 
-  getRooms(): Observable<Array<Room>> {
-    return of(null);
+  constructor(private http: HttpClient) {
+    console.log(environment.restUrl);
+  }
+
+  getUser(id: number): Observable<User> {
+    return this.http.get<User>(environment.restUrl + '/api/users/' + id)
+      .pipe(map(data => {
+        return User.fromHttp(data);
+      }));
   }
 
   getUsers(): Observable<Array<User>> {
-    return of(null);
+    return this.http.get<Array<User>>(environment.restUrl + '/api/users/')
+      .pipe(map(data => {
+        const users = new Array<User>();
+        for (const user of data) {
+          users.push(User.fromHttp(user));
+        }
+        return users;
+      }));
+  }
+
+  getRooms(): Observable<Array<Room>> {
+    return this.http.get<Array<Room>>(environment.restUrl + '/api/rooms')
+      .pipe(map(data => {
+        const rooms = new Array<Room>();
+        for (const room of data) {
+          rooms.push(Room.fromHttp(room));
+        }
+        return rooms;
+      }));
   }
 
   updateUser(user: User): Observable<User> {
@@ -69,14 +94,4 @@ export class DataService {
     return of(null);
   }
 
-  constructor(private http: HttpClient) {
-    console.log(environment.restUrl);
-  }
-
-  getUser(id: number): Observable<User> {
-    return this.http.get<User>(environment.restUrl + '/api/users/' + id)
-      .pipe(map(data => {
-        return User.fromHttp(data);
-      }));
-  }
 }
