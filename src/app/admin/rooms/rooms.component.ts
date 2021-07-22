@@ -15,7 +15,7 @@ export class RoomsComponent implements OnInit {
   selectedRoom: Room;
   action: string;
   loadingData = true;
-  massage = 'Please waite the data is loading';
+  message = 'Please waite the data is loading';
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -29,7 +29,7 @@ export class RoomsComponent implements OnInit {
       this.loadingData = false;
     },
     error => {
-      this.massage = 'Sorry something went wrong, please try again late. Error: ' + error.massage;
+      this.message = 'Sorry something went wrong, please try again late. Error: ' + error.message;
       console.log('Error ', error);
     }
   )
