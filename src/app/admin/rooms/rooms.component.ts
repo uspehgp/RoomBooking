@@ -28,6 +28,7 @@ export class RoomsComponent implements OnInit {
     this.dataService.getRooms().subscribe(next => {
         this.rooms = next;
         this.loadingData = false;
+        this.processUrlParams();
       },
       error => {
         if (error.status === 402) {
@@ -45,10 +46,7 @@ export class RoomsComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-
-    this.loadData();
-
+  processUrlParams() {
     this.route.queryParams.subscribe(
       (params) => {
         this.action = null;
@@ -64,6 +62,11 @@ export class RoomsComponent implements OnInit {
         }
       }
     );
+  }
+
+  ngOnInit() {
+
+    this.loadData();
   }
 
   setRoom(id: number) {
