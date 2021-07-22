@@ -17,13 +17,6 @@ export class DataService {
     console.log(environment.restUrl);
   }
 
-  getUser(id: number): Observable<User> {
-    return this.http.get<User>(environment.restUrl + '/api/users/' + id)
-      .pipe(map(data => {
-        return User.fromHttp(data);
-      }));
-  }
-
   getUsers(): Observable<Array<User>> {
     return this.http.get<Array<User>>(environment.restUrl + '/api/users/')
       .pipe(map(data => {

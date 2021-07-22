@@ -14,6 +14,8 @@ export class RoomsComponent implements OnInit {
   rooms: Array<Room>;
   selectedRoom: Room;
   action: string;
+  loadingData = true;
+  massage = 'Please waite the data is loading';
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -24,7 +26,14 @@ export class RoomsComponent implements OnInit {
   ngOnInit() {
     this.dataService.getRooms().subscribe(next => {
       this.rooms = next;
-    });
+      this.loadingData = false;
+    },
+    error => {
+      this.massage = 'Sorry something went wrong, please try again late. Error: ' + error.massage;
+      console.log('Error ', error);
+    }
+  )
+    ;
     this.route.queryParams.subscribe(
       (params) => {
         this.action = null;
