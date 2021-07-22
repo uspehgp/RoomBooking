@@ -32,7 +32,7 @@ export class RoomsComponent implements OnInit {
       },
       error => {
         if (error.status === 402) {
-          this.message = 'Sorry you nees pay to use this application.';
+          this.message = 'Sorry you needs to pay to use this application.';
         } else {
           this.reloadAttempts++;
           if (this.reloadAttempts <= 10) {

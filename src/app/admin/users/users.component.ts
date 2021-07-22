@@ -14,6 +14,8 @@ export class UsersComponent implements OnInit {
   users = new Array<User>();
   selectedUser: User;
   action: string;
+  loadingData = true;
+  message = 'Please waite the data is loading';
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -24,16 +26,21 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
     this.dataService.getUsers().subscribe(next => {
       this.users = next;
-    });
-    this.route.queryParams.subscribe(
-      (params) => {
-        const id = params['id'];
-        this.action = params['action'];
-        if (id) {
-          this.selectedUser = this.users.find((user) => user.id === +id);
+      this.loadingData = false;
+      this.route.queryParams.subscribe(
+        (params) => {
+          const id = params['id'];
+          this.action = params['action'];
+          if (id) {
+            this.selectedUser = this.users.find((user) => user.id === +id);
+          }
+        },
+        error => {
+          this.message = 'The errors occurred, please contact with support';
         }
-      }
-    );
+      );
+    });
+
   }
 
   setUser(id: number) {
