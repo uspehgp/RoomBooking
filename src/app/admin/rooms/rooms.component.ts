@@ -25,14 +25,17 @@ export class RoomsComponent implements OnInit {
 
   ngOnInit() {
     this.dataService.getRooms().subscribe(next => {
-      this.rooms = next;
-      this.loadingData = false;
-    },
-    error => {
-      this.message = 'Sorry something went wrong, please try again late. Error: ' + error.message;
-      console.log('Error ', error);
-    }
-  )
+        this.rooms = next;
+        this.loadingData = false;
+      },
+      error => {
+        if (error.status === 402) {
+          this.message = 'Sorry you nees pay to use this application.';
+        } else {
+          this.message = 'Sorry something went wrong, please try again late.';
+        }
+      }
+    )
     ;
     this.route.queryParams.subscribe(
       (params) => {
